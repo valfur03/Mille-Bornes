@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../includes/Card.h"
 #include "../includes/Safety.h"
 
@@ -19,8 +20,15 @@ Safety::Safety(const std::string& name) : Card(name, SAFETY) {
 	m_protection = PUNCTURE_PROOF;
 }
 
-//Create a safety card from safety's parameters
+//Create a safety card from safety card's parameters
 
 Safety::Safety(const std::string& name, const Protection& protection) : Card(name, SAFETY) {
 	m_protection = protection;
+}
+
+//Print details about the safety card
+
+void Safety::details() {
+	Card::details();
+	std::cout << "\t[" << m_protection << "]" << std::endl;
 }

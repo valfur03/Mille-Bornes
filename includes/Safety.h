@@ -11,6 +11,8 @@ public:
 	Safety(const std::string& name);
 	Safety(const std::string& name, const Protection& protection);
 
+	void details(); //Print details about the card
+
 private:
 	Protection m_protection; //Type of protection of the card (cf. Card.h)
 };

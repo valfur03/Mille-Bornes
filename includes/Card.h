@@ -2,12 +2,22 @@
 #define CARD_H_INCLUDED
 
 #include <string>
+#include <vector>
 
 enum Protection {
+	RIGHT_WAY,
 	EXTRA_TANK,
 	PUNCTURE_PROOF,
-	DRIVING_ACE,
-	RIGHT_WAY
+	DRIVING_ACE
+};
+
+enum Effect {
+	NOTHING,
+	STOP,
+	SPEED_LIMIT,
+	OUT_OF_GAS,
+	FLAT_TIRE,
+	ACCIDENT
 };
 
 enum Role {
@@ -23,12 +33,12 @@ public:
 	Card(const Card& card);
 	Card(const std::string& name, const Role& role);
 
-	void details(); //Print the details about the card
 	std::string getName(); //Return the name of the card
+	virtual void details(); //Print details about the card
 
 private:
 	std::string m_name; //Name of the card
-	Role m_role; //Role the card
+	Role m_role; //Role of the card
 };
 
 #endif

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../includes/Distance.h"
 
 //Create a distance card
@@ -22,4 +23,11 @@ Distance::Distance(const std::string& name) : Card(name, DISTANCE) {
 
 Distance::Distance(const std::string& name, const int& distance) : Card(name, DISTANCE) {
 	m_distance = distance;
+}
+
+//Print details about the distance card
+
+void Distance::details() {
+	Card::details();
+	std::cout << "\t" << m_distance << " km" << std::endl;
 }

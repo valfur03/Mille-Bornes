@@ -10,6 +10,8 @@ public:
 	Distance(const std::string& name);
 	Distance(const std::string& name, const int& distance);
 
+	void details(); //Print details about the card
+
 private:
 	int m_distance; //Distance of the card
 };
