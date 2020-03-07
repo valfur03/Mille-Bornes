@@ -1,4 +1,7 @@
 #include <iostream>
+#include <random>
+#include <ctime>
+#include <algorithm>
 #include "../includes/Distance.h"
 #include "../includes/Hazard.h"
 #include "../includes/Remedy.h"
@@ -8,7 +11,9 @@
 std::vector<Card*> initializeCardsList();
 
 int main() {
-	std::vector<Card *> cardsList = initializeCardsList();
+	std::vector<Card *> cardsList = initializeCardsList(); //Create a list of the game's cards
+	std::vector<Card *> cardsStack = cardsList; //Create the cards' stack
+	std::shuffle(std::begin(cardsStack), std::end(cardsStack), std::default_random_engine(time(0))); //Suffle the cards' stack
 }
 
 //Return an unshuffled cards' list
