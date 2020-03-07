@@ -9,16 +9,40 @@
 #include "../includes/Player.h"
 
 std::vector<Card*> initializeCardsList();
+void breakLine();
+std::vector<Player*> initializePlayersList(const int& nbPlayers);
 
 int main() {
+	//Initialize cards' list
+
 	std::vector<Card *> cardsList = initializeCardsList(); //Create a list of the game's cards
 	std::vector<Card *> cardsStack = cardsList; //Create the cards' stack
 	std::shuffle(std::begin(cardsStack), std::end(cardsStack), std::default_random_engine(time(0))); //Suffle the cards' stack
+
+	//Initialize players' list
+
+	int nbPlayers; //Number of players
+
+	breakLine();
+
+	do {
+		std::cout << "Entrez le nombre de joueurs : ";
+		std::cin >> nbPlayers;
+		if (nbPlayers < 2 || nbPlayers > 4) {
+			breakLine();
+
+			std::cout << "Voue ne pouvez pas jouer a " << nbPlayers << " joueurs. Une partie se deroule avec 2-4 joueurs." << std::endl;
+		}
+	} while (nbPlayers < 2 || nbPlayers > 4);
+
+	breakLine();
+
+	std::vector<Player *> playersList = initializePlayersList(nbPlayers); //List of the players
 }
 
 //Return an unshuffled cards' list
 
-std::vector<Card*> initializeCardsList() {
+std::vector<Card *> initializeCardsList() {
 	std::vector<Card*> cardsList; //Initialize the cards' list
 
 	//Add safeties to the cards' list
@@ -49,4 +73,28 @@ std::vector<Card*> initializeCardsList() {
 	for (int i = 0; i < 4; i++) cardsList.push_back(new Distance("200 bornes", 200));
 
 	return cardsList;
+}
+
+//Print a line of -
+
+void breakLine() {
+	std::cout << std::endl << "------------------------------\n" << std::endl;
+}
+
+//Return a players' list
+
+std::vector<Player*> initializePlayersList(const int& nbPlayers) {
+	std::vector<Player*> playersList;
+
+	std::cout << "Entrez le nom des joueurs du plus jeune au plus vieux" << std::endl;
+	std::string playerName;
+	for (int i = 0; i < nbPlayers; i++) {
+		std::cout << "Entrez le nom du joueur " << i + 1 << " : ";
+		std::cin >> playerName;
+		playersList.push_back(new Player(playerName));
+
+		breakLine();
+	}
+
+	return playersList;
 }

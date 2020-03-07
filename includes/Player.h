@@ -8,16 +8,19 @@
 class Player {
 public:
 	Player();
+	Player(const Player& player);
+	Player(const std::string& name);
+
 	void dispHand(); //Print every card in the player's hand
 
 private:
 	std::string m_playerName; //Player name
 	int m_nbCards; //Number of cards in hand
-	std::vector<Card> m_hand; //Hand (cards vector)
+	std::vector<Card *> m_hand; //Hand (cards vector)
 	std::vector<Protection> m_protection; //Safety cards
 	int m_travelledDistance; //Sum of distance's cards
-	bool speedLimit; //Under speed limit or not
-	Effect effect; //Effect (hazard cards) on the player
+	bool m_speedLimit; //Under speed limit or not
+	Effect m_effect; //Effect (hazard cards) on the player
 };
 
 #endif
