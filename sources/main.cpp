@@ -15,9 +15,10 @@ std::vector<Player*> initializePlayersList(const int& nbPlayers);
 int main() {
 	//Initialize cards' list
 
-	std::vector<Card *> cardsList = initializeCardsList(); //Create a list of the game's cards
-	std::vector<Card *> cardsStack = cardsList; //Create the cards' stack
+	std::vector<Card*> cardsList = initializeCardsList(); //Create a list of the game's cards
+	std::vector<Card*> cardsStack = cardsList; //Create the cards' stack
 	std::shuffle(std::begin(cardsStack), std::end(cardsStack), std::default_random_engine(time(0))); //Suffle the cards' stack
+	std::vector<Card*> discardCardsStack; //Create the discard cards' stack
 
 	//Initialize players' list
 
@@ -37,12 +38,15 @@ int main() {
 
 	breakLine();
 
-	std::vector<Player *> playersList = initializePlayersList(nbPlayers); //List of the players
+	std::vector<Player*> playersList = initializePlayersList(nbPlayers); //List of the players
+
+	//Deal 6 cards to each player
+	for (int i = 0; i < nbPlayers; i++) playersList[i]->pickCard(cardsStack, 6);
 }
 
 //Return an unshuffled cards' list
 
-std::vector<Card *> initializeCardsList() {
+std::vector<Card*> initializeCardsList() {
 	std::vector<Card*> cardsList; //Initialize the cards' list
 
 	//Add safeties to the cards' list

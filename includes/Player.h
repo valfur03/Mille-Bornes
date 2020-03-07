@@ -11,7 +11,8 @@ public:
 	Player(const Player& player);
 	Player(const std::string& name);
 
-	void dispHand(); //Print every card in the player's hand
+	void dispHand(); //Display player's card one by one
+	void pickCard(std::vector<Card*>& cardsStack, const int& nbCards); //Add a card to the player's hand
 
 private:
 	std::string m_playerName; //Player name

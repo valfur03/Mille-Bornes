@@ -42,3 +42,13 @@ void Player::dispHand() {
 		std::cout << i + 1 << ". " << m_hand[i]->getName() << std::endl;
 	}
 }
+
+//Add a card to the player's hand
+
+void Player::pickCard(std::vector<Card*>& cardsStack, const int& nbCards) {
+	for (int i = 0; i < nbCards; i++) {
+		m_hand.push_back(cardsStack[0]);
+		cardsStack.erase(cardsStack.begin());
+		m_nbCards++;
+	}
+}
