@@ -93,7 +93,12 @@ int main() {
 			else playError = !playersList[playersTurn]->playCard(playedCard, playersList);
 		} while (playError);
 
-		if (!playersList[playersTurn]->rePlay()) {
+		if (playersList[playersTurn]->hasWon()) {
+			std::cout << playersList[playersTurn]->getName() << " a gagne !" << std::endl;
+			playersList.erase(playersList.begin() + playersTurn);
+			nbPlayers--;
+			system("pause");
+		} else if (!playersList[playersTurn]->rePlay()) {
 			if (nbPlayers == playersTurn + 1) {
 				playersTurn = 0;
 			}
@@ -102,7 +107,7 @@ int main() {
 			}
 		}
 
-		if (playersList.size() == 1) {
+		if (nbPlayers == 1) {
 			gameContinue = false;
 		}
 	}

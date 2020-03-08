@@ -21,6 +21,7 @@ public:
 	void getAttack(const Effect& effect);
 	bool isProtected(const Effect& effect);
 	bool isAffected();
+	bool hasWon();
 	bool rePlay();
 
 private:

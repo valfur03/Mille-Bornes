@@ -88,12 +88,14 @@ bool Player::pickCard(std::vector<Card*>& cardsStack, const std::vector<Card*>& 
 		m_nbCards++;
 
 		//Check if stack is empty
-		if (cardsStack.empty() && !discardStack.empty()) {
-			cardsStack = discardStack;
-		}
-		else {
-			std::cout << "Il n'y a plus de cartes" << std::endl;
-			return false;
+		if (cardsStack.empty()) {
+			if (!discardStack.empty()) {
+				cardsStack = discardStack;
+			}
+			else {
+				std::cout << "Il n'y a plus de cartes" << std::endl;
+				return false;
+			}
 		}
 	}
 	return true;
@@ -229,6 +231,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 
 //Discard a card :)
 
+
 void Player::disCard(const int& selectedCard) {
 	m_hand.erase(m_hand.begin() + (selectedCard - 1));
 	m_nbCards--;
@@ -272,6 +275,13 @@ bool Player::isProtected(const Effect& effect) {
 
 bool Player::isAffected() {
 	if (m_effect != NOTHING) return true;
+	return false;
+}
+
+//Check if player has won
+
+bool Player::hasWon() {
+	if (m_travelledDistance == 1000) return true;
 	return false;
 }
 
