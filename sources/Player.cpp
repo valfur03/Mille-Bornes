@@ -56,6 +56,21 @@ std::vector<Protection> Player::getProtection() {
 	return m_protection;
 }
 
+//Display the details about the player
+
+void Player::details() {
+	std::string effects[] = { "Non", "Feu rouge", "Limite de vitesse", "Panne d'essence", "Crevaison", "Accident" };
+	std::string protections[] = { "Vehicule prioritaire", "Citerne d'essance", "Increvable", "As du volant" };
+	std::cout << "A atteint " << m_travelledDistance << " km" << std::endl;
+	std::cout << "Limite de vitesse ? " << m_speedLimit << std::endl;
+	std::cout << "Attaque ? " << effects[m_effect] << std::endl;
+	std::cout << "Protection(s) : [ ";
+	for (int i = 0; i < m_protection.size(); i++) {
+		std::cout << protections[m_protection[i]] << " ";
+	}
+	std::cout << "]" << std::endl;
+}
+
 //Display player's card one by one
 
 void Player::dispHand() {
@@ -66,12 +81,22 @@ void Player::dispHand() {
 
 //Add a card to the player's hand
 
-void Player::pickCard(std::vector<Card*>& cardsStack, const int& nbCards) {
+bool Player::pickCard(std::vector<Card*>& cardsStack, const std::vector<Card*>& discardStack, const int& nbCards) {
 	for (int i = 0; i < nbCards; i++) {
 		m_hand.push_back(cardsStack[0]);
 		cardsStack.erase(cardsStack.begin());
 		m_nbCards++;
+
+		//Check if stack is empty
+		if (cardsStack.empty() && !discardStack.empty()) {
+			cardsStack = discardStack;
+		}
+		else {
+			std::cout << "Il n'y a plus de cartes" << std::endl;
+			return false;
+		}
 	}
+	return true;
 }
 
 //Play the selected card
@@ -82,6 +107,9 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 	switch (playedCard->getRole()) {
 	case SAFETY:
 		m_protection.push_back(dynamic_cast<Safety*>(playedCard)->getProtection());
+		if (this->isProtected(m_effect)) {
+			m_effect = NOTHING;
+		}
 		m_rePlay = true;
 		break;
 	case HAZARD:
@@ -95,20 +123,28 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			std::cout << "Ce joueur n'existe pas" << std::endl;
 			playError = true;
 		}
-		else if ((playersList[target-1]->isProtected(dynamic_cast<Hazard*>(playedCard)->getEffect())) || (playersList[target-1]->isAffected()) || (playersList[target-1]->getName() == m_name)) {
+		else if ((playersList[target-1]->isProtected(dynamic_cast<Hazard*>(playedCard)->getEffect())) || ((playersList[target-1]->isAffected()) && dynamic_cast<Hazard*>(playedCard)->getEffect() != SPEED_LIMIT) || (playersList[target-1]->getName() == m_name)) {
 			std::cout << "Ce joueur ne peut pas etre attaque" << std::endl;
 			playError = true;
 		}
-		playersList[target - 1]->getAttack(dynamic_cast<Hazard*>(playedCard)->getEffect());
+		if (!playError) playersList[target - 1]->getAttack(dynamic_cast<Hazard*>(playedCard)->getEffect());
 		break;
 	case REMEDY:
 		switch (m_effect) {
 		case NOTHING:
-			std::cout << "Vous ne pouvez pas utiliser cette carte car vous n'etes pas attaque" << std::endl;
-			playError = true;
+			if (m_speedLimit) {
+				m_speedLimit = false;
+			}
+			else {
+				std::cout << "Vous ne pouvez pas utiliser cette carte car vous n'etes pas attaque" << std::endl;
+				playError = true;
+			}
 			break;
 		case STOP:
-			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == STOP) {
+			if (m_speedLimit) {
+				m_speedLimit = false;
+			}
+			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == STOP) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -117,7 +153,10 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case SPEED_LIMIT:
-			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
+			if (m_speedLimit) {
+				m_speedLimit = false;
+			}
+			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -126,7 +165,10 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case OUT_OF_GAS:
-			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == OUT_OF_GAS) {
+			if (m_speedLimit) {
+				m_speedLimit = false;
+			}
+			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == OUT_OF_GAS) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -135,7 +177,10 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case FLAT_TIRE:
-			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == FLAT_TIRE) {
+			if (m_speedLimit) {
+				m_speedLimit = false;
+			}
+			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == FLAT_TIRE) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -144,7 +189,10 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case ACCIDENT:
-			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == ACCIDENT) {
+			if (m_speedLimit) {
+				m_speedLimit = false;
+			}
+			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == ACCIDENT) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -155,8 +203,8 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 		}
 		break;
 	case DISTANCE:
-		if (m_travelledDistance += dynamic_cast<Distance*>(playedCard)->getDistance() > 1000) {
-			std::cout << "Vous ne pouvez pas dépasser 1000 bornes" << std::endl;
+		if (m_travelledDistance + dynamic_cast<Distance*>(playedCard)->getDistance() > 1000) {
+			std::cout << "Vous ne pouvez pas depasser 1000 bornes" << std::endl;
 			playError = true;
 		}
 		else if (m_bornesLimit == 2 && dynamic_cast<Distance*>(playedCard)->getDistance() == 200) {
@@ -164,7 +212,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			playError = true;
 		}
 		else if (m_effect != NOTHING) {
-			std::cout << "Vous etes attaque, vous ne pouvez toujours pas avancer !";
+			std::cout << "Vous etes attaque, vous ne pouvez toujours pas avancer !" << std::endl;
 			playError = true;
 		}
 		else {
@@ -189,7 +237,10 @@ void Player::disCard(const int& selectedCard) {
 //Get attacked by a player
 
 void Player::getAttack(const Effect& effect) {
-	m_effect = effect;
+	if (effect != SPEED_LIMIT) {
+		m_effect = effect;
+	}
+	else m_speedLimit = true;
 }
 
 //Return true if the player is protected against some hazard cards

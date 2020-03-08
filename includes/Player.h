@@ -13,8 +13,9 @@ public:
 
 	std::string getName();
 	std::vector<Protection> getProtection();
+	void details();
 	void dispHand(); //Display player's card one by one
-	void pickCard(std::vector<Card*>& cardsStack, const int& nbCards = 1); //Add a card to the player's hand
+	bool pickCard(std::vector<Card*>& cardsStack, const std::vector<Card*>& discardStack, const int& nbCards = 1); //Add a card to the player's hand
 	bool playCard(const int& selectedCard, const std::vector<Player*>& playersList);
 	void disCard(const int& selectedCard);
 	void getAttack(const Effect& effect);

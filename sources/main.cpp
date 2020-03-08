@@ -41,7 +41,7 @@ int main() {
 	std::vector<Player*> playersList = initializePlayersList(nbPlayers); //List of the players
 
 	//Deal 6 cards to each player
-	for (int i = 0; i < nbPlayers; i++) playersList[i]->pickCard(cardsStack, 6);
+	for (int i = 0; i < nbPlayers; i++) playersList[i]->pickCard(cardsStack, discardCardsStack, 6);
 
 	//MAIN LOOP
 	bool gameContinue = true;
@@ -54,34 +54,44 @@ int main() {
 		breakLine();
 
 		//Pick a card
-		playersList[playersTurn]->pickCard(cardsStack);
+		if (!playersList[playersTurn]->pickCard(cardsStack, discardCardsStack)) {
+			gameContinue = false;
+		}
 
+		playersList[playersTurn]->details();
+		std::cout << std::endl;
 		playersList[playersTurn]->dispHand();
 		std::cout << "8. Jeter une carte" << std::endl;
+		std::cout << std::endl;
+		bool playError = false;
 		do {
-			std::cout << "Quelle carte voulez-vous jouer ? ";
-			std::cin >> playedCard;
-			if (playedCard < 1 || playedCard > 8) {
-				breakLine();
-
-				std::cout << "Vous ne pouvez pas jouer cette carte !" << std::endl;
-			}
-		} while (playedCard < 1 || playedCard > 8);
-
-		if (playedCard == 8) { //If the player wants to put a card in discard cards' stack
 			do {
+				std::cout << "Quelle carte voulez-vous jouer ? ";
+				std::cin >> playedCard;
+				if (playedCard < 1 || playedCard > 8) {
+					breakLine();
+
+					std::cout << "Vous ne pouvez pas jouer cette carte !" << std::endl;
+					playError = true;
+				}
+			} while (playedCard < 1 || playedCard > 8);
+
+			if (playedCard == 8) { //If the player wants to put a card in discard cards' stack
 				std::cout << "Quelle carte voulez-vous jeter ? ";
 				std::cin >> playedCard;
 				if (playedCard < 1 || playedCard > 7) {
 					breakLine();
 
 					std::cout << "Vous ne pouvez pas jeter cette carte !" << std::endl;
+					std::cout << std::endl;
+					playError = true;
 				}
 				else {
 					playersList[playersTurn]->disCard(playedCard);
 				}
-			} while (playedCard < 1 || playedCard > 7);
-		} else do {} while (!playersList[playersTurn]->playCard(playedCard, playersList));
+			}
+			else playError = !playersList[playersTurn]->playCard(playedCard, playersList);
+		} while (playError);
 
 		if (!playersList[playersTurn]->rePlay()) {
 			if (nbPlayers == playersTurn + 1) {
@@ -91,7 +101,12 @@ int main() {
 				playersTurn++;
 			}
 		}
+
+		if (playersList.size() == 1) {
+			gameContinue = false;
+		}
 	}
+	std::cout << "La partie est terminee !" << std::endl;
 }
 
 //Return an unshuffled cards' list
