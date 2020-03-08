@@ -65,6 +65,7 @@ int main() {
 		std::cout << std::endl;
 		bool playError = false;
 		do {
+			playError = false;
 			do {
 				std::cout << "Quelle carte voulez-vous jouer ? ";
 				std::cin >> playedCard;

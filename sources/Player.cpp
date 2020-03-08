@@ -146,7 +146,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			if (m_speedLimit) {
 				m_speedLimit = false;
 			}
-			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == STOP) {
+			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == STOP) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -158,7 +158,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			if (m_speedLimit) {
 				m_speedLimit = false;
 			}
-			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
+			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -170,7 +170,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			if (m_speedLimit) {
 				m_speedLimit = false;
 			}
-			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == OUT_OF_GAS) {
+			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == OUT_OF_GAS) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -182,7 +182,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			if (m_speedLimit) {
 				m_speedLimit = false;
 			}
-			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == FLAT_TIRE) {
+			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == FLAT_TIRE) {
 				m_effect = NOTHING;
 			}
 			else {
@@ -194,7 +194,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			if (m_speedLimit) {
 				m_speedLimit = false;
 			}
-			else if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == ACCIDENT) {
+			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == ACCIDENT) {
 				m_effect = NOTHING;
 			}
 			else {
