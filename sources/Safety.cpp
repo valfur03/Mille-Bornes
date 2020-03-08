@@ -26,6 +26,12 @@ Safety::Safety(const std::string& name, const Protection& protection) : Card(nam
 	m_protection = protection;
 }
 
+//Return the type of protection of the card
+
+Protection Safety::getProtection() {
+	return m_protection;
+}
+
 //Print details about the safety card
 
 void Safety::details() {

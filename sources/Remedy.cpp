@@ -26,6 +26,12 @@ Remedy::Remedy(const std::string& name, const Effect& effect) : Card(name, REMED
 	m_counterEffect = effect;
 }
 
+//
+
+Effect Remedy::getCounterEffect() {
+	return m_counterEffect;
+}
+
 //Print details about the remedy card
 
 void Remedy::details() {

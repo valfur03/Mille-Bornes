@@ -11,17 +11,27 @@ public:
 	Player(const Player& player);
 	Player(const std::string& name);
 
+	std::string getName();
+	std::vector<Protection> getProtection();
 	void dispHand(); //Display player's card one by one
-	void pickCard(std::vector<Card*>& cardsStack, const int& nbCards); //Add a card to the player's hand
+	void pickCard(std::vector<Card*>& cardsStack, const int& nbCards = 1); //Add a card to the player's hand
+	bool playCard(const int& selectedCard, const std::vector<Player*>& playersList);
+	void disCard(const int& selectedCard);
+	void getAttack(const Effect& effect);
+	bool isProtected(const Effect& effect);
+	bool isAffected();
+	bool rePlay();
 
 private:
-	std::string m_playerName; //Player name
+	std::string m_name; //Player name
 	int m_nbCards; //Number of cards in hand
-	std::vector<Card *> m_hand; //Hand (cards vector)
+	std::vector<Card*> m_hand; //Hand (cards vector)
 	std::vector<Protection> m_protection; //Safety cards
 	int m_travelledDistance; //Sum of distance's cards
+	int m_bornesLimit; //Limit of 2 200 distance's cards
 	bool m_speedLimit; //Under speed limit or not
 	Effect m_effect; //Effect (hazard cards) on the player
+	bool m_rePlay;
 };
 
 #endif

@@ -25,6 +25,12 @@ Distance::Distance(const std::string& name, const int& distance) : Card(name, DI
 	m_distance = distance;
 }
 
+//Return the value of the distance's card
+
+int Distance::getDistance() {
+	return m_distance;
+}
+
 //Print details about the distance card
 
 void Distance::details() {

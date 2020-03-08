@@ -26,6 +26,12 @@ Hazard::Hazard(const std::string& name, const Effect& effect) : Card(name, HAZAR
 	m_effect = effect;
 }
 
+//Return the hazard card's effect
+
+Effect Hazard::getEffect() {
+	return m_effect;
+}
+
 //Print details about the hazard card
 
 void Hazard::details() {

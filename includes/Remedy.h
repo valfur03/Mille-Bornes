@@ -11,6 +11,7 @@ public:
 	Remedy(const std::string& name);
 	Remedy(const std::string& name, const Effect& effect);
 
+	Effect getCounterEffect();
 	void details(); //Print details about the card
 
 private:

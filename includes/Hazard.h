@@ -11,6 +11,7 @@ public:
 	Hazard(const std::string& name);
 	Hazard(const std::string& name, const Effect& effect);
 
+	Effect getEffect();
 	void details(); //Print details about the card
 
 private:

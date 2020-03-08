@@ -11,6 +11,7 @@ public:
 	Safety(const std::string& name);
 	Safety(const std::string& name, const Protection& protection);
 
+	Protection getProtection();
 	void details(); //Print details about the card
 
 private:

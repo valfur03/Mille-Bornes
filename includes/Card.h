@@ -34,6 +34,7 @@ public:
 	Card(const std::string& name, const Role& role);
 
 	std::string getName(); //Return the name of the card
+	Role getRole(); //Return the role of the card
 	virtual void details(); //Print details about the card
 
 private:

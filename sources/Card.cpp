@@ -27,14 +27,20 @@ Card::Card(const std::string& name, const Role& role) {
 	m_role = role;
 }
 
-//Print details about the card
-
-void Card::details() {
-	std::cout << m_name << " [" << m_role << "]" << std::endl;
-}
-
 //Return the name of the card
 
 std::string Card::getName() {
 	return m_name;
+}
+
+//Return the role of the card
+
+Role Card::getRole() {
+	return m_role;
+}
+
+//Print details about the card
+
+void Card::details() {
+	std::cout << m_name << " [" << m_role << "]" << std::endl;
 }
