@@ -93,7 +93,7 @@ bool Player::pickCard(std::vector<Card*>& cardsStack, const std::vector<Card*>& 
 				cardsStack = discardStack;
 			}
 			else {
-				std::cout << "Il n'y a plus de cartes" << std::endl;
+				std::cout << "Il n'y a plus de cartes\n" << std::endl;
 				return false;
 			}
 		}
@@ -111,6 +111,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 		m_protection.push_back(dynamic_cast<Safety*>(playedCard)->getProtection());
 		if (this->isProtected(m_effect)) {
 			m_effect = NOTHING;
+			if (this->isProtected(SPEED_LIMIT)) m_speedLimit = false;
 		}
 		m_rePlay = true;
 		break;
@@ -217,6 +218,10 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			std::cout << "Vous etes attaque, vous ne pouvez toujours pas avancer !" << std::endl;
 			playError = true;
 		}
+		else if (m_speedLimit && dynamic_cast<Distance*>(playedCard)->getDistance() > 50) {
+			std::cout << "Vous avez une limite de vitesse, vous ne pouvez pas autant avancer !" << std::endl;
+			playError = true;
+		}
 		else {
 			m_travelledDistance += dynamic_cast<Distance*>(playedCard)->getDistance();
 			if (dynamic_cast<Distance*>(playedCard)->getDistance() == 200) m_bornesLimit++;
@@ -232,7 +237,8 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 //Discard a card :)
 
 
-void Player::disCard(const int& selectedCard) {
+void Player::disCard(const int& selectedCard, std::vector<Card*>& discardCardsStack) {
+	discardCardsStack.push_back(m_hand[selectedCard - 1]);
 	m_hand.erase(m_hand.begin() + (selectedCard - 1));
 	m_nbCards--;
 }

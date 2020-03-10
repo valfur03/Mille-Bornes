@@ -48,15 +48,13 @@ int main() {
 	int playersTurn = 0;
 	int playedCard = 0;
 	while (gameContinue) {
-		system("clear");
+		system("cls");
 		std::cout << "C'est au tour de " << playersList[playersTurn]->getName() << " !" << std::endl;
 		system("pause");
 		breakLine();
 
 		//Pick a card
-		if (!playersList[playersTurn]->pickCard(cardsStack, discardCardsStack)) {
-			gameContinue = false;
-		}
+		if (!playersList[playersTurn]->pickCard(cardsStack, discardCardsStack)) gameContinue = false;
 
 		playersList[playersTurn]->details();
 		std::cout << std::endl;
@@ -67,6 +65,7 @@ int main() {
 		do {
 			playError = false;
 			do {
+				playError = false;
 				std::cout << "Quelle carte voulez-vous jouer ? ";
 				std::cin >> playedCard;
 				if (playedCard < 1 || playedCard > 8) {
@@ -88,7 +87,7 @@ int main() {
 					playError = true;
 				}
 				else {
-					playersList[playersTurn]->disCard(playedCard);
+					playersList[playersTurn]->disCard(playedCard, discardCardsStack);
 				}
 			}
 			else playError = !playersList[playersTurn]->playCard(playedCard, playersList);

@@ -17,7 +17,7 @@ public:
 	void dispHand(); //Display player's card one by one
 	bool pickCard(std::vector<Card*>& cardsStack, const std::vector<Card*>& discardStack, const int& nbCards = 1); //Add a card to the player's hand
 	bool playCard(const int& selectedCard, const std::vector<Player*>& playersList);
-	void disCard(const int& selectedCard);
+	void disCard(const int& selectedCard, std::vector<Card*>& discardCardsStack);
 	void getAttack(const Effect& effect);
 	bool isProtected(const Effect& effect);
 	bool isAffected();
