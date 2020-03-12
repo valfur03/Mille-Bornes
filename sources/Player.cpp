@@ -121,7 +121,11 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			std::cout << i + 1 << ". " << playersList[i]->getName() << std::endl;
 		}
 		std::cout << "Contre qui voulez vous-jouer cette carte ? ";
-		std::cin >> target;
+		while (!(std::cin >> target)) {
+			std::cout << "Veuillez entrer une valeur valide" << std::endl;
+			std::cin.clear();
+			std::cin.ignore();
+		}
 		if (target < 1 || target > playersList.size()) {
 			std::cout << "Ce joueur n'existe pas" << std::endl;
 			playError = true;
@@ -135,7 +139,7 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 	case REMEDY:
 		switch (m_effect) {
 		case NOTHING:
-			if (m_speedLimit) {
+			if (m_speedLimit && dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
 				m_speedLimit = false;
 			}
 			else {
@@ -144,11 +148,11 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case STOP:
-			if (m_speedLimit) {
-				m_speedLimit = false;
-			}
 			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == STOP) {
 				m_effect = NOTHING;
+			}
+			else if (m_speedLimit && dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
+				m_speedLimit = false;
 			}
 			else {
 				std::cout << "Vous ne pouvez pas utiliser cette carte car elle ne corrige pas votre attaque" << std::endl;
@@ -156,11 +160,11 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case SPEED_LIMIT:
-			if (m_speedLimit) {
-				m_speedLimit = false;
-			}
 			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
 				m_effect = NOTHING;
+			}
+			else if (m_speedLimit && dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
+				m_speedLimit = false;
 			}
 			else {
 				std::cout << "Vous ne pouvez pas utiliser cette carte car elle ne corrige pas votre attaque" << std::endl;
@@ -168,11 +172,11 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case OUT_OF_GAS:
-			if (m_speedLimit) {
-				m_speedLimit = false;
-			}
 			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == OUT_OF_GAS) {
 				m_effect = NOTHING;
+			}
+			else if (m_speedLimit && dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
+				m_speedLimit = false;
 			}
 			else {
 				std::cout << "Vous ne pouvez pas utiliser cette carte car elle ne corrige pas votre attaque" << std::endl;
@@ -180,11 +184,11 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case FLAT_TIRE:
-			if (m_speedLimit) {
-				m_speedLimit = false;
-			}
 			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == FLAT_TIRE) {
 				m_effect = NOTHING;
+			}
+			else if (m_speedLimit && dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
+				m_speedLimit = false;
 			}
 			else {
 				std::cout << "Vous ne pouvez pas utiliser cette carte car elle ne corrige pas votre attaque" << std::endl;
@@ -192,11 +196,11 @@ bool Player::playCard(const int& selectedCard, const std::vector<Player*>& playe
 			}
 			break;
 		case ACCIDENT:
-			if (m_speedLimit) {
-				m_speedLimit = false;
-			}
 			if (dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == ACCIDENT) {
 				m_effect = NOTHING;
+			}
+			else if (m_speedLimit && dynamic_cast<Remedy*>(playedCard)->getCounterEffect() == SPEED_LIMIT) {
+				m_speedLimit = false;
 			}
 			else {
 				std::cout << "Vous ne pouvez pas utiliser cette carte car elle ne corrige pas votre attaque" << std::endl;

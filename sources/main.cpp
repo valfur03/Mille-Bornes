@@ -28,7 +28,11 @@ int main() {
 
 	do {
 		std::cout << "Entrez le nombre de joueurs : ";
-		std::cin >> nbPlayers;
+		while (!(std::cin >> nbPlayers)) {
+			std::cout << "Veuillez entrer une valeur valide" << std::endl;
+			std::cin.clear();
+			std::cin.ignore();
+		}
 		if (nbPlayers < 2 || nbPlayers > 4) {
 			breakLine();
 
@@ -67,7 +71,11 @@ int main() {
 			do {
 				playError = false;
 				std::cout << "Quelle carte voulez-vous jouer ? ";
-				std::cin >> playedCard;
+				while (!(std::cin >> playedCard)) {
+					std::cout << "Veuillez entrer une valeur valide" << std::endl;
+					std::cin.clear();
+					std::cin.ignore();
+				}
 				if (playedCard < 1 || playedCard > 8) {
 					breakLine();
 
@@ -78,7 +86,11 @@ int main() {
 
 			if (playedCard == 8) { //If the player wants to put a card in discard cards' stack
 				std::cout << "Quelle carte voulez-vous jeter ? ";
-				std::cin >> playedCard;
+				while (!(std::cin >> playedCard)) {
+					std::cout << "Veuillez entrer une valeur valide" << std::endl;
+					std::cin.clear();
+					std::cin.ignore();
+				}
 				if (playedCard < 1 || playedCard > 7) {
 					breakLine();
 
@@ -164,7 +176,11 @@ std::vector<Player*> initializePlayersList(const int& nbPlayers) {
 	std::string playerName;
 	for (int i = 0; i < nbPlayers; i++) {
 		std::cout << "Entrez le nom du joueur " << i + 1 << " : ";
-		std::cin >> playerName;
+		while (!(std::cin >> playerName)) {
+			std::cout << "Veuillez entrer une valeur valide" << std::endl;
+			std::cin.clear();
+			std::cin.ignore();
+		}
 		playersList.push_back(new Player(playerName));
 
 		breakLine();
