@@ -52,9 +52,8 @@ int main() {
 	int playersTurn = 0;
 	int playedCard = 0;
 	while (gameContinue) {
-		system("cls");
+		if(system("cls")) system("clear");
 		std::cout << "C'est au tour de " << playersList[playersTurn]->getName() << " !" << std::endl;
-		system("pause");
 		breakLine();
 
 		//Pick a card
@@ -109,7 +108,6 @@ int main() {
 			std::cout << playersList[playersTurn]->getName() << " a gagne !" << std::endl;
 			playersList.erase(playersList.begin() + playersTurn);
 			nbPlayers--;
-			system("pause");
 		} else if (!playersList[playersTurn]->rePlay()) {
 			if (nbPlayers == playersTurn + 1) {
 				playersTurn = 0;
