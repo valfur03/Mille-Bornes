@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "../includes/Player.h"
 #include "../includes/Distance.h"
 #include "../includes/Hazard.h"
