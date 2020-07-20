@@ -11,6 +11,16 @@ You can install the .exe file in the [releases](https://github.com/valfur03/mill
 #### Disclaimer
 Like any .exe file, your browser and Windows can warn you of a potential danger running this file. However, it is totally safe.
 ### Linux / MacOS
+
+#### Requirements
+Before compiling the program, you need to install make and g++ (if not already done). To do so, you need admin privileges.
+```bash
+sudo apt install make
+```
+```bash
+sudo apt install g++
+```
+#### Program installation
 Clone this repository on your computer.
 ```bash
 git clone https://github.com/valfur03/mille-bornes
